@@ -48,7 +48,8 @@ func Cache(_ *cobra.Command, args []string) {
 		log.Fatal("Unable to compress")
 		return
 	}
-	log.Println(fmt.Sprintf("Wrote git ignored files to dir: %v", os.TempDir()))
+	log.Println(fmt.Sprintf("Wrote git ignored files to file: %v/%s.zip",
+		os.TempDir(), previousHash))
 }
 
 func getCommitHash() plumbing.Hash {
