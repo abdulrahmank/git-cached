@@ -40,7 +40,11 @@ func writeDirToCompressedFile(matchFile string, zipWriter *zip.Writer) {
 		return
 	}
 	for _, info := range infos {
-		writeFileToCompressedFile(matchFile+"/"+info.Name(), zipWriter)
+		if !info.IsDir() {
+			writeFileToCompressedFile(matchFile+"/"+info.Name(), zipWriter)
+		} else {
+			writeDirToCompressedFile(matchFile+"/"+info.Name(), zipWriter)
+		}
 	}
 }
 
