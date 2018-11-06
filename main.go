@@ -1,19 +1,7 @@
 package main
 
-import (
-	"github.com/spf13/cobra"
-)
+import "github.com/abdulrahmank/git-cached/cmd"
 
-var cmdInit = &cobra.Command{
-	Use:   "init",
-	Run:   runGitCached,
-	Short: "Initialize a new cluster",
-}
-
-func init() {
-	cmdInit.Execute()
-}
-
-func runGitCached(c *cobra.Command, args []string) {
-
+func main() {
+	cmd.Execute()
 }
