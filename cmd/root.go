@@ -5,9 +5,10 @@ import (
 	"github.com/abdulrahmank/git-cached/compressor"
 	"github.com/abdulrahmank/git-cached/parser"
 	"github.com/spf13/cobra"
+	"gopkg.in/src-d/go-git.v4/plumbing"
 	"log"
 	"os"
-	"os/exec"
+	"gopkg.in/src-d/go-git.v4"
 )
 
 var rootCmd = &cobra.Command{
@@ -40,13 +41,12 @@ func RunGitCached(_ *cobra.Command, _ []string) {
 		log.Fatal("Unable to parse git ignore file")
 		return
 	}
-	bytes, err := exec.Command(
-		"git", "log",  "--oneline", "| head -n 1", "| awk '{print $1;}'").Output()
+	bytes := getCommitHash()
 	if err != nil {
 		log.Fatalf("Unable to get hash %v", err)
 		return
 	}
-	previousHash := string(bytes)
+	previousHash := bytes.String()
 	log.Println(
 		fmt.Sprintf("Caching git ignored files for hash %s with bytes length %d",
 			previousHash, len(bytes)))
@@ -57,4 +57,14 @@ func RunGitCached(_ *cobra.Command, _ []string) {
 		return
 	}
 	log.Println(fmt.Sprintf("Wrote git ignored files to dir: %v", os.TempDir()))
+}
+
+func getCommitHash() plumbing.Hash {
+	r, e := git.PlainOpen("/Users/kabdul/go/src/github.com/abdulrahmank/git-cached/")
+	if e != nil {
+		log.Fatal(e.Error())
+		return plumbing.Hash{}
+	}
+	ref, _ := r.Head()
+	return ref.Hash()
 }
