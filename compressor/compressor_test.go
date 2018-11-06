@@ -7,11 +7,12 @@ import (
 )
 
 func TestCompress(t *testing.T) {
+	tempDir := "../test_resource"
+	rootPath := "../test_resource"
+
 	t.Run("Should compress all the files matching the regex in the path", func(t *testing.T) {
 		fileRegex := []string{".idea", "normalfile"}
 		previousHash := "hashfortest1"
-		tempDir := "../test_resource"
-		rootPath := "../test_resource"
 
 		err := Compress(fileRegex, previousHash, tempDir, rootPath)
 
@@ -43,8 +44,6 @@ func TestCompress(t *testing.T) {
 	t.Run("Should compress all the directories matching the regex in the path", func(t *testing.T) {
 		fileRegex := []string{"*dir"}
 		previousHash := "hashfortest2"
-		tempDir := "../test_resource"
-		rootPath := "../test_resource"
 
 		err := Compress(fileRegex, previousHash, tempDir, rootPath)
 
@@ -79,8 +78,6 @@ func TestCompress(t *testing.T) {
 	t.Run("Should compress all the directories ans sub directories matching the regex in the path", func(t *testing.T) {
 		fileRegex := []string{"subdir"}
 		previousHash := "hashfortest3"
-		tempDir := "../test_resource"
-		rootPath := "../test_resource"
 
 		err := Compress(fileRegex, previousHash, tempDir, rootPath)
 
