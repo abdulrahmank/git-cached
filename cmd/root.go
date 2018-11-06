@@ -5,16 +5,17 @@ import (
 	"github.com/abdulrahmank/git-cached/compressor"
 	"github.com/abdulrahmank/git-cached/parser"
 	"github.com/spf13/cobra"
+	"gopkg.in/src-d/go-git.v4"
 	"gopkg.in/src-d/go-git.v4/plumbing"
 	"log"
 	"os"
-	"gopkg.in/src-d/go-git.v4"
 )
 
 var rootCmd = &cobra.Command{
 	Use:   "git-cached",
 	Short: "Caches all the files ignored using .gitignore",
 	Run:   RunGitCached,
+	Args: cobra.MinimumNArgs(1),
 }
 
 type CommandArgs struct {
@@ -23,11 +24,6 @@ type CommandArgs struct {
 
 var cmdArg CommandArgs
 
-func init() {
-	rootCmd.PersistentFlags().StringVar(&cmdArg.Path, "path", "",
-		"Path of root git directory where .gitignore file exists")
-}
-
 func Execute() {
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Println(err)
@@ -35,15 +31,20 @@ func Execute() {
 	}
 }
 
-func RunGitCached(_ *cobra.Command, _ []string) {
-	ignoredFilesRegex, err := parser.Parse("/Users/kabdul/go/src/github.com/abdulrahmank/git-cached/")
+func RunGitCached(c *cobra.Command, args []string) {
+	cmdArg.Path = args[0]
+	if &cmdArg.Path == nil || len(cmdArg.Path) == 0 {
+		log.Print("Please pass location as first argument")
+	}
+	log.Printf("Running git cached in location: %s", cmdArg.Path)
+	ignoredFilesRegex, err := parser.Parse(cmdArg.Path + "/.gitignore")
 	if err != nil {
-		log.Fatal("Unable to parse git ignore file")
+		log.Fatalf("Unable to parse git ignore file: %s", err.Error())
 		return
 	}
 	bytes := getCommitHash()
 	if err != nil {
-		log.Fatalf("Unable to get hash %v", err)
+		log.Fatalf("Unable to get hash %s", err.Error())
 		return
 	}
 	previousHash := bytes.String()
@@ -60,7 +61,7 @@ func RunGitCached(_ *cobra.Command, _ []string) {
 }
 
 func getCommitHash() plumbing.Hash {
-	r, e := git.PlainOpen("/Users/kabdul/go/src/github.com/abdulrahmank/git-cached/")
+	r, e := git.PlainOpen(cmdArg.Path)
 	if e != nil {
 		log.Fatal(e.Error())
 		return plumbing.Hash{}
