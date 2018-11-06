@@ -21,16 +21,37 @@ func Compress(fileRegex []string, previousHash string, tempDir string, rootPath 
 	for _, file := range fileRegex {
 		matches, _ := filepath.Glob(fmt.Sprintf("%s/%s", rootPath, file))
 		for _, matchFile := range matches {
-			contents, err := ioutil.ReadFile(matchFile)
-			if err != nil {
-				break
+			info, _ := os.Stat(matchFile)
+			switch mode := info.Mode(); {
+			case mode.IsDir():
+				writeDirToCompressedFile(matchFile, zipWriter)
+			case mode.IsRegular():
+				writeFileToCompressedFile(matchFile, zipWriter)
 			}
-			writer, err := zipWriter.Create(matchFile)
-			if err != nil {
-				break
-			}
-			writer.Write(contents)
 		}
 	}
 	return nil
+}
+
+func writeDirToCompressedFile(matchFile string, zipWriter *zip.Writer) {
+	zipWriter.Create(fmt.Sprintf("%s/", matchFile))
+	infos, err := ioutil.ReadDir(matchFile)
+	if err != nil {
+		return
+	}
+	for _, info := range infos {
+		writeFileToCompressedFile(matchFile+"/"+info.Name(), zipWriter)
+	}
+}
+
+func writeFileToCompressedFile(matchFile string, zipWriter *zip.Writer) {
+	contents, err := ioutil.ReadFile(matchFile)
+	if err != nil {
+		return
+	}
+	writer, err := zipWriter.Create(matchFile)
+	if err != nil {
+		return
+	}
+	writer.Write(contents)
 }
