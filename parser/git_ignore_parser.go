@@ -13,6 +13,8 @@ func Parse(path string) (StringList, error) {
 	if e != nil {
 		return nil, e
 	}
+	defer file.Close()
+
 	file.Seek(0,0)
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
