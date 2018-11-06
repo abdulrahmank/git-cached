@@ -11,27 +11,18 @@ import (
 	"os"
 )
 
-var rootCmd = &cobra.Command{
-	Use:   "git-cached",
-	Short: "Caches all the files ignored using .gitignore",
-	Run:   RunGitCached,
-	Args: cobra.MinimumNArgs(1),
+var cmdCache = &cobra.Command{
+	Use:   "cache",
+	Run:   Cache,
+	Short: "Cache all the file anf directories ignored in git",
+	Args:  cobra.MinimumNArgs(1),
 }
 
-type CommandArgs struct {
-	Path string
+func init() {
+	GitCCmd.AddCommand(cmdCache)
 }
 
-var cmdArg CommandArgs
-
-func Execute() {
-	if err := rootCmd.Execute(); err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
-}
-
-func RunGitCached(c *cobra.Command, args []string) {
+func Cache(_ *cobra.Command, args []string) {
 	cmdArg.Path = args[0]
 	if &cmdArg.Path == nil || len(cmdArg.Path) == 0 {
 		log.Print("Please pass location as first argument")
