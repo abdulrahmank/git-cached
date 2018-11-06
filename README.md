@@ -30,7 +30,7 @@ This tool will be less useful for those following [Trunk based](https://trunkbas
 When checking out to a new branch, run the following command to cache all the ignored files corresponding to a commit hash.
 
 ```
-git-cached {dir}
+gitc cache {dir}
 ```
 
 Note: dir is the file path of the director containing the .gitignore files.
