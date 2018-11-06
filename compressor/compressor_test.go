@@ -1,4 +1,4 @@
-package parser
+package compressor
 
 import (
 	"archive/zip"
