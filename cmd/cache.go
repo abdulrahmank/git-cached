@@ -33,7 +33,7 @@ func Cache(_ *cobra.Command, args []string) {
 		log.Fatalf("Unable to parse git ignore file: %s", err.Error())
 		return
 	}
-	bytes := getCommitHash()
+	bytes := GetCommitHash()
 	if err != nil {
 		log.Fatalf("Unable to get hash %s", err.Error())
 		return
@@ -52,7 +52,7 @@ func Cache(_ *cobra.Command, args []string) {
 		os.TempDir(), previousHash))
 }
 
-func getCommitHash() plumbing.Hash {
+func GetCommitHash() plumbing.Hash {
 	r, e := git.PlainOpen(cmdArg.Path)
 	if e != nil {
 		log.Fatal(e.Error())
