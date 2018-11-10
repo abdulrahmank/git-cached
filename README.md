@@ -33,9 +33,14 @@ When checking out to a new branch, run the following command to cache all the ig
 gitc cache {dir}
 ```
 
+To apply the cache back, run the following command:
+
+```
+gitc apply {dir}
+```
+
 Note: dir is the file path of the director containing the .gitignore files.
 
 **WIP**
 
-1. Command to apply the cache when checking back to an old branch.
-2. Calling the commands using hooks or some other mechanism in order to cache/apply the cache automatically on checking out to and from a branch.   
+1. Calling the commands using hooks or some other mechanism in order to cache/apply the cache automatically on checking out to and from a branch.   
