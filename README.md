@@ -25,6 +25,10 @@ development where ".xcworkspace" needs to be updated when new files are added.
 And there can be many other scenarios when we follow [Git-flow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow "Gitflow").
 This tool will be less useful for those following [Trunk based](https://trunkbaseddevelopment.com/ "Trunk based development").
 
+**Installation**
+
+Download the binary from releases and add it to your path. 
+
 **Usage**
 
 When checking out to a new branch, run the following command to cache all the ignored files corresponding to a commit hash.
@@ -39,9 +43,14 @@ To apply the cache back, run the following command:
 gitc apply
 ```
 
+If you don't want to run the commands manually, keep an alias for `git checkout` to be `gitc cache && git checkout`.
+Create a file named `post-checkout`, inside `{gitRootDir}/.git/hooks` and copy the contents:
+```
+#!/bin/bash
+
+~/go/bin/gitc apply
+echo "Applied cache"
+```
+
 Note: The directory from which commands are run should be the root dir (containing .gitignore file).
-If you want to run from a non root dir, please include the directory path as an argument to the command.
-
-**WIP**
-
-1. Calling the commands using hooks or some other mechanism in order to cache/apply the cache automatically on checking out to and from a branch.   
+If you want to run from a non root dir, please include the directory path as an argument to the command.   
