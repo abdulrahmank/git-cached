@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	"github.com/abdulrahmank/git-cached/compressor"
+	"github.com/abdulrahmank/gitc/compressor"
 	"github.com/spf13/cobra"
 	"os"
 )

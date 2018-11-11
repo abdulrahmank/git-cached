@@ -2,8 +2,8 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/abdulrahmank/git-cached/compressor"
-	"github.com/abdulrahmank/git-cached/parser"
+	"github.com/abdulrahmank/gitc/compressor"
+	"github.com/abdulrahmank/gitc/parser"
 	"github.com/spf13/cobra"
 	"gopkg.in/src-d/go-git.v4"
 	"gopkg.in/src-d/go-git.v4/plumbing"

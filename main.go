@@ -1,6 +1,6 @@
 package main
 
-import "github.com/abdulrahmank/git-cached/cmd"
+import "github.com/abdulrahmank/gitc/cmd"
 
 func main() {
 	cmd.Execute()
