@@ -30,16 +30,17 @@ This tool will be less useful for those following [Trunk based](https://trunkbas
 When checking out to a new branch, run the following command to cache all the ignored files corresponding to a commit hash.
 
 ```
-gitc cache {dir}
+gitc cache
 ```
 
 To apply the cache back, run the following command:
 
 ```
-gitc apply {dir}
+gitc apply
 ```
 
-Note: dir is the file path of the director containing the .gitignore files.
+Note: The directory from which commands are run should be the root dir (containing .gitignore file).
+If you want to run from a non root dir, please include the directory path as an argument to the command.
 
 **WIP**
 
