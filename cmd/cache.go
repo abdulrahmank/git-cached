@@ -15,7 +15,6 @@ var cmdCache = &cobra.Command{
 	Use:   "cache",
 	Run:   Cache,
 	Short: "Cache all the file anf directories ignored in git",
-	Args:  cobra.MinimumNArgs(1),
 }
 
 func init() {
@@ -23,7 +22,12 @@ func init() {
 }
 
 func Cache(_ *cobra.Command, args []string) {
-	cmdArg.Path = args[0]
+	if len(args) > 0 {
+		cmdArg.Path = args[0]
+	} else {
+		cmdArg.Path = "."
+	}
+
 	if &cmdArg.Path == nil || len(cmdArg.Path) == 0 {
 		log.Print("Please pass location as first argument")
 	}

@@ -10,7 +10,6 @@ var cmdApply = &cobra.Command{
 	Use:   "apply",
 	Run:   Apply,
 	Short: "Cache all the file anf directories ignored in git",
-	Args:  cobra.MinimumNArgs(1),
 }
 
 func init() {
@@ -18,7 +17,12 @@ func init() {
 }
 
 func Apply(_ *cobra.Command, args []string) {
-	cmdArg.Path = args[0]
+	if len(args) > 0 {
+		cmdArg.Path = args[0]
+	} else {
+		cmdArg.Path = "."
+	}
+
 	hash := GetCommitHash()
 	compressor.Decompress(os.TempDir(), hash.String(), cmdArg.Path)
 }
