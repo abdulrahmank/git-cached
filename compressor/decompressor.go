@@ -23,6 +23,10 @@ func Decompress(tmpFilePath string, hash string, rootPath string) error {
 			}
 			io.Copy(file, f)
 		} else {
+			err := os.RemoveAll(rootPath + "/" + file.Name)
+			if err != nil {
+				log.Fatalf("Unable to remove exisitng ignore files: %s", err.Error())
+			}
 			os.MkdirAll(rootPath+"/"+file.Name, os.ModePerm)
 		}
 	}
