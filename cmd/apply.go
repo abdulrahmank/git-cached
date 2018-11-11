@@ -18,7 +18,7 @@ func init() {
 }
 
 func Apply(_ *cobra.Command, args []string) {
-	path := args[0]
+	cmdArg.Path = args[0]
 	hash := GetCommitHash()
-	compressor.Decompress(os.TempDir(), hash.String(), path)
+	compressor.Decompress(os.TempDir(), hash.String(), cmdArg.Path)
 }
